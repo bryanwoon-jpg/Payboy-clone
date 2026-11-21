@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/*
+  Ledger palette
+  ink     #17202B  sidebar, headings
+  ledger  #234E8C  primary actions, links
+  canvas  #EEF1F5  app background
+  rule    #D5DBE3  hairlines
+  Status colours are reserved for request states only.
+*/
+@theme {
+  --color-ink: #17202b;
+  --color-ink-soft: #2a3542;
+  --color-ledger: #234e8c;
+  --color-ledger-dark: #1a3c6d;
+  --color-ledger-tint: #e6edf7;
+  --color-canvas: #eef1f5;
+  --color-surface: #ffffff;
+  --color-rule: #d5dbe3;
+  --color-muted: #5b6676;
+  --color-faint: #8a94a3;
+  --color-pending: #9a6212;
+  --color-pending-tint: #fcf1d8;
+  --color-approved: #2a7149;
+  --color-approved-tint: #e1f0e7;
+  --color-rejected: #a63a28;
+  --color-rejected-tint: #f8e3de;
+
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+}
+
+/* Tabular figures only where numbers line up; applied globally they also widen punctuation */
+.tabular-nums,
+.table .num {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ledger);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: var(--radius-control);
+    padding: 0.5rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-ledger);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-ledger-dark);
+  }
+  .btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border-color: var(--color-rule);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-faint);
+  }
+  .btn-danger {
+    background: var(--color-surface);
+    color: var(--color-rejected);
+    border-color: #e5bdb5;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: var(--color-rejected-tint);
+  }
+  .btn-approve {
+    background: var(--color-approved);
+    color: #fff;
+  }
+  .btn-approve:hover:not(:disabled) {
+    background: #215b3a;
+  }
+  .btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8125rem;
+  }
+
+  .input {
+    width: 100%;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-rule);
+    background: var(--color-surface);
+    padding: 0.5rem 0.7rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-ink);
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-ledger);
+    box-shadow: 0 0 0 3px var(--color-ledger-tint);
+  }
+  .input::placeholder {
+    color: var(--color-faint);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+    margin-bottom: 0.35rem;
+  }
+
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-panel);
+  }
+
+  .table {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+  }
+  .table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--color-rule);
+    white-space: nowrap;
+  }
+  .table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #e8ecf1;
+    vertical-align: top;
+  }
+  .table tr:last-child td {
+    border-bottom: none;
+  }
+  .table .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .link {
+    color: var(--color-ledger);
+    font-weight: 600;
+  }
+  .link:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Perforated edge used only on the payslip */
+.perforation {
+  background-image: radial-gradient(circle at 8px 0, var(--color-canvas) 6px, transparent 6.5px);
+  background-size: 16px 12px;
+  background-repeat: repeat-x;
+  height: 12px;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-plain {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .perforation {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
